@@ -33,10 +33,25 @@ body {
 /* --- Barra Superior --- */
 .top-bar {
     background-color: var(--bg-medium);
-    padding: 1rem;
-    text-align: center;
+    padding: 0.75rem 1rem; /* Alterado para ajustar o padding vertical */
     border-bottom: 1px solid var(--border-color);
     flex-shrink: 0;
+    display: flex; /* Adicionado */
+    justify-content: center; /* Adicionado */
+    align-items: center; /* Adicionado */
+}
+/* Novo container para o título e avatar */
+.title-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Espaço entre o avatar e o título */
+}
+.avatar {
+    width: 44px; /* Tamanho do avatar */
+    height: 44px; /* Tamanho do avatar */
+    border-radius: 50%; /* Deixa a imagem redonda */
+    border: 2px solid var(--accent-primary); /* Borda sutil com a cor do tema */
+    object-fit: cover; /* Garante que a imagem preencha o círculo sem distorcer */
 }
 .top-bar h1 {
     font-size: 1.5rem;
@@ -76,11 +91,11 @@ body {
   border: none;
   color: var(--text-secondary);
   cursor: pointer;
-  padding: 0.75rem 1rem; /* ALTERADO */
+  padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   transition: color 0.2s;
   font-size: 0.75rem;
-  min-width: 80px; /* ADICIONADO */
+  min-width: 80px;
 }
 .nav-button.active {
     color: var(--accent-primary);
@@ -92,6 +107,7 @@ body {
 
 .view { display: none; }
 .view.active-view { display: block; }
+
 .view-header {
   display: flex;
   justify-content: space-between;
@@ -106,7 +122,7 @@ body {
 .filter-controls {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem; /* ALTERADO */
+    gap: 0.75rem;
     margin-bottom: 1rem;
 }
 .filter-btn {
@@ -125,7 +141,7 @@ body {
 }
 .custom-date-controls {
     display: none;
-    gap: 1rem; /* ALTERADO */
+    gap: 1rem;
     align-items: center;
     margin-bottom: 1.5rem;
 }
@@ -156,13 +172,11 @@ body {
 .chart-card {
     grid-column: 1 / -1;
 }
-/* --- Correção do Gráfico --- */
 .chart-wrapper {
   position: relative;
   height: 400px;
   width: 100%;
 }
-
 
 /* --- Listas, Modais e Botões --- */
 .btn { padding: 0.6rem 1.2rem; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s; }
@@ -183,26 +197,22 @@ input:focus, select:focus { outline: none; border-color: var(--accent-primary); 
 .list-item-content .description { font-weight: 600; }
 .list-item-content .details { font-size: 0.9rem; color: var(--text-secondary); }
 .list-item .amount { font-size: 1.2rem; font-weight: bold; }
-.list-item .actions { display: flex; gap: 1rem; } /* ALTERADO */
+.list-item .actions { display: flex; gap: 1rem; }
 .action-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0.25rem; }
 .action-btn:hover { color: var(--text-primary); }
 
-.modal-overlay { position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 100; }
+.modal-overlay { position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 100; padding: 1rem; }
 .modal-overlay.visible { display: flex; }
 .modal-content { background-color: var(--bg-medium); padding: 2rem; border-radius: 0.75rem; border: 1px solid var(--border-color); width: 100%; max-width: 500px; position: relative; }
 .small-modal { max-width: 350px; text-align: center; }
 .small-modal p { margin-bottom: 1.5rem; }
 .modal-actions { display: flex; gap: 1rem; justify-content: center; }
 .close-button { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--text-secondary); font-size: 1.5rem; cursor: pointer; }
-#expense-form { display: flex; flex-direction: column; gap: 1rem; }
+
+#expense-form, #add-category-form { display: flex; flex-direction: column; gap: 1rem; }
 .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
 
-/* ADICIONADO */
-.form-inline {
-    display: flex;
-    gap: 0.75rem;
-}
-
+/* --- Responsividade --- */
 @media (max-width: 768px) {
     .main-content { padding: 1rem; padding-bottom: 90px; }
     .view-header h2 { font-size: 1.5rem; }

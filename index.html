@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Finanças da Ana</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Chart.js para os gráficos e o plugin datalabels para exibir os valores nas barras -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
 </head>
 <body>
     <div class="app-container">
-        <!-- BARRA SUPERIOR -->
+        <!-- BARRA SUPERIOR (MODIFICADA) -->
         <header class="top-bar">
-            <h1>Finanças da Ana</h1>
+            <div class="title-container">
+                <img src="assets/Ana.png" alt="Avatar da Ana" class="avatar">
+                <h1>Finanças da Ana</h1>
+            </div>
         </header>
 
         <!-- CONTEÚDO PRINCIPAL -->
@@ -74,19 +76,10 @@
             <section id="CATEGORIES" class="view">
                  <div class="view-header">
                     <h2>Gerenciar Categorias</h2>
+                    <button id="add-category-btn" class="btn btn-primary">Adicionar Categoria</button>
                 </div>
-                <div class="category-manager">
-                    <div class="category-form-container">
-                        <h3>Adicionar Nova Categoria</h3>
-                        <form id="add-category-form" class="form-inline">
-                            <input type="text" id="new-category-name" placeholder="Nome da categoria" required>
-                            <button type="submit" class="btn btn-primary">Adicionar</button>
-                        </form>
-                    </div>
-                    <br>
-                    <div id="category-list" class="category-list">
-                         <!-- Categorias serão inseridas aqui via JS -->
-                    </div>
+                <div id="category-list" class="category-list">
+                     <!-- Categorias serão inseridas aqui via JS -->
                 </div>
             </section>
         </main>
@@ -108,23 +101,67 @@
         </nav>
     </div>
 
-    <!-- MODAIS (permanecem os mesmos) -->
+    <!-- MODAL DE DESPESAS (ADICIONAR/EDITAR) -->
     <div id="expense-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="close-modal-btn" class="close-button">&times;</button>
             <h2 id="modal-title">Adicionar Despesa</h2>
             <form id="expense-form">
                 <input type="hidden" id="expense-id">
-                <div class="form-group"><label for="description">Descrição</label><input type="text" id="description" required></div>
-                <div class="form-group"><label for="amount">Valor (R$)</label><input type="number" id="amount" step="0.01" required></div>
-                <div class="form-group"><label for="date">Data</label><input type="date" id="date" required></div>
-                <div class="form-group"><label for="category">Categoria</label><select id="category" required></select></div>
+                <div class="form-group">
+                    <label for="description">Descrição</label>
+                    <input type="text" id="description" required>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Valor (R$)</label>
+                    <input type="number" id="amount" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Data</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Categoria</label>
+                    <select id="category" required>
+                        <!-- Opções de categoria serão inseridas aqui via JS -->
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary btn-block">Salvar</button>
             </form>
         </div>
     </div>
-    <div id="alert-modal" class="modal-overlay"><div class="modal-content small-modal"><p id="alert-message"></p><button id="alert-ok-btn" class="btn btn-primary">OK</button></div></div>
-    <div id="confirm-modal" class="modal-overlay"><div class="modal-content small-modal"><p id="confirm-message"></p><div class="modal-actions"><button id="confirm-cancel-btn" class="btn btn-secondary">Cancelar</button><button id="confirm-ok-btn" class="btn btn-danger">Confirmar</button></div></div></div>
+
+    <!-- MODAL DE CATEGORIAS -->
+    <div id="category-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-category-modal-btn" class="close-button">&times;</button>
+            <h2 id="category-modal-title">Adicionar Categoria</h2>
+            <form id="add-category-form">
+                <div class="form-group">
+                    <label for="new-category-name">Nome da Categoria</label>
+                    <input type="text" id="new-category-name" required placeholder="Ex: Educação">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAIS DE ALERTA E CONFIRMAÇÃO -->
+    <div id="alert-modal" class="modal-overlay">
+        <div class="modal-content small-modal">
+            <p id="alert-message"></p>
+            <button id="alert-ok-btn" class="btn btn-primary">OK</button>
+        </div>
+    </div>
+    <div id="confirm-modal" class="modal-overlay">
+        <div class="modal-content small-modal">
+            <p id="confirm-message"></p>
+            <div class="modal-actions">
+                <button id="confirm-cancel-btn" class="btn btn-secondary">Cancelar</button>
+                <button id="confirm-ok-btn" class="btn btn-danger">Confirmar</button>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
