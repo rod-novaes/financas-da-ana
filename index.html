@@ -5,28 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Finanças da Ana</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Usaremos a biblioteca Chart.js para os gráficos, é mais simples de usar em vanilla JS -->
+    <!-- Chart.js para os gráficos e o plugin datalabels para exibir os valores nas barras -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
 </head>
 <body>
     <div class="app-container">
-        <!-- BARRA LATERAL / CABEÇALHO -->
-        <header class="sidebar">
-            <h1 class="title">Finanças da Ana</h1>
-            <nav class="navigation">
-                <button data-view="DASHBOARD" class="nav-button active">
-                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 012-2h2a2 2 0 012 2v6m-8-12V5a2 2 0 012-2h4a2 2 0 012 2v2m-6 0h6"/></svg>
-                    <span>Painel</span>
-                </button>
-                <button data-view="EXPENSES" class="nav-button">
-                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                    <span>Despesas</span>
-                </button>
-                <button data-view="CATEGORIES" class="nav-button">
-                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5a2 2 0 012 2v5a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2zm0 14h.01M7 11h5a2 2 0 012 2v5a2 2 0 01-2 2H7a2 2 0 01-2-2v-5a2 2 0 012-2z"/></svg>
-                    <span>Categorias</span>
-                </button>
-            </nav>
+        <!-- BARRA SUPERIOR -->
+        <header class="top-bar">
+            <h1>Finanças da Ana</h1>
         </header>
 
         <!-- CONTEÚDO PRINCIPAL -->
@@ -36,6 +23,20 @@
                 <div class="view-header">
                     <h2>Painel de Estatísticas</h2>
                 </div>
+                <!-- FILTROS DE PERÍODO -->
+                <div class="filter-controls">
+                    <button class="filter-btn active" data-filter="monthly">Mensal</button>
+                    <button class="filter-btn" data-filter="quarterly">Trimestral</button>
+                    <button class="filter-btn" data-filter="semiannual">Semestral</button>
+                    <button class="filter-btn" data-filter="annual">Anual</button>
+                    <button class="filter-btn" data-filter="custom">Personalizado</button>
+                </div>
+                <div id="custom-date-range" class="custom-date-controls">
+                    <input type="date" id="start-date">
+                    <span>até</span>
+                    <input type="date" id="end-date">
+                </div>
+
                 <div id="dashboard-content" class="dashboard-grid">
                     <div class="stat-card">
                         <h3>Total Gasto</h3>
@@ -51,7 +52,9 @@
                     </div>
                     <div class="stat-card chart-card">
                         <h3>Gastos por Categoria</h3>
-                        <canvas id="category-chart"></canvas>
+                        <div class="chart-wrapper">
+                            <canvas id="category-chart"></canvas>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -80,61 +83,48 @@
                             <button type="submit" class="btn btn-primary">Adicionar</button>
                         </form>
                     </div>
+                    <br>
                     <div id="category-list" class="category-list">
                          <!-- Categorias serão inseridas aqui via JS -->
                     </div>
                 </div>
             </section>
         </main>
+
+        <!-- NAVEGAÇÃO INFERIOR -->
+        <nav class="bottom-nav">
+            <button data-view="DASHBOARD" class="nav-button active">
+                <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 012-2h2a2 2 0 012 2v6m-8-12V5a2 2 0 012-2h4a2 2 0 012 2v2m-6 0h6"/></svg>
+                <span>Painel</span>
+            </button>
+            <button data-view="EXPENSES" class="nav-button">
+                <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                <span>Despesas</span>
+            </button>
+            <button data-view="CATEGORIES" class="nav-button">
+                <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5a2 2 0 012 2v5a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2zm0 14h.01M7 11h5a2 2 0 012 2v5a2 2 0 01-2 2H7a2 2 0 01-2-2v-5a2 2 0 012-2z"/></svg>
+                <span>Categorias</span>
+            </button>
+        </nav>
     </div>
 
-    <!-- MODAL DE DESPESAS (ADICIONAR/EDITAR) -->
+    <!-- MODAIS (permanecem os mesmos) -->
     <div id="expense-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="close-modal-btn" class="close-button">&times;</button>
             <h2 id="modal-title">Adicionar Despesa</h2>
             <form id="expense-form">
                 <input type="hidden" id="expense-id">
-                <div class="form-group">
-                    <label for="description">Descrição</label>
-                    <input type="text" id="description" required>
-                </div>
-                <div class="form-group">
-                    <label for="amount">Valor (R$)</label>
-                    <input type="number" id="amount" step="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label for="date">Data</label>
-                    <input type="date" id="date" required>
-                </div>
-                <div class="form-group">
-                    <label for="category">Categoria</label>
-                    <select id="category" required>
-                        <!-- Opções de categoria serão inseridas aqui via JS -->
-                    </select>
-                </div>
+                <div class="form-group"><label for="description">Descrição</label><input type="text" id="description" required></div>
+                <div class="form-group"><label for="amount">Valor (R$)</label><input type="number" id="amount" step="0.01" required></div>
+                <div class="form-group"><label for="date">Data</label><input type="date" id="date" required></div>
+                <div class="form-group"><label for="category">Categoria</label><select id="category" required></select></div>
                 <button type="submit" class="btn btn-primary btn-block">Salvar</button>
             </form>
         </div>
     </div>
-
-    <!-- MODAIS DE ALERTA E CONFIRMAÇÃO -->
-    <div id="alert-modal" class="modal-overlay">
-        <div class="modal-content small-modal">
-            <p id="alert-message"></p>
-            <button id="alert-ok-btn" class="btn btn-primary">OK</button>
-        </div>
-    </div>
-
-    <div id="confirm-modal" class="modal-overlay">
-        <div class="modal-content small-modal">
-            <p id="confirm-message"></p>
-            <div class="modal-actions">
-                <button id="confirm-cancel-btn" class="btn btn-secondary">Cancelar</button>
-                <button id="confirm-ok-btn" class="btn btn-danger">Confirmar</button>
-            </div>
-        </div>
-    </div>
+    <div id="alert-modal" class="modal-overlay"><div class="modal-content small-modal"><p id="alert-message"></p><button id="alert-ok-btn" class="btn btn-primary">OK</button></div></div>
+    <div id="confirm-modal" class="modal-overlay"><div class="modal-content small-modal"><p id="confirm-message"></p><div class="modal-actions"><button id="confirm-cancel-btn" class="btn btn-secondary">Cancelar</button><button id="confirm-ok-btn" class="btn btn-danger">Confirmar</button></div></div></div>
 
     <script src="script.js"></script>
 </body>
